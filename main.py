@@ -8,7 +8,7 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 
 # 1. إعداد التوكن وتخزين البيانات
-BOT_TOKEN = "8946190104:AAE5uWoStI7VQLrCkrTn4xglekhS_wzcodA"
+BOT_TOKEN = "8946190104:AAET8Sj9F48zJV1OLBJ2pcmgxrqkwHYikAc"
 bot = telebot.TeleBot(BOT_TOKEN)
 
 DATA_FILE = "league_data.json"
