@@ -47,7 +47,7 @@ def generate_round_robin(players):
                 day_matches.append({"p1": p1, "p2": p2, "played": False, "result": ""})
         schedule[str(day + 1)] = day_matches
         # تدوير اللاعبين ما عدا الأول ثابت
-        list_players = [list_players[0]] + [list_players[-1]] + list_players[1:-1]
+        list_players = [list_players] + [list_players[-1]] + list_players[1:-1]
         
     return schedule
 
@@ -61,7 +61,7 @@ def start_new_season(message):
     
     players = [p.strip() for p in raw_text.split('\n') if p.strip()]
     if len(players) < 2:
-        bot.reply_to(message, "❌ يجب إدخل لاعبين اثنين على الأقل.")
+        bot.reply_to(message, "❌ يجب إدخال لاعبين اثنين على الأقل.")
         return
     
     schedule = generate_round_robin(players)
@@ -141,5 +141,12 @@ def start_timer_at_midnight(chat_id):
             
     Thread(target=check_time, daemon=True).start()
 
-print("البوت يعمل بكفاءة بدون قيود...")
-bot.infinity_polling()
+# تشغيل نظيف وطرد أي سيرفر متداخل قديم مع تصفير كامل للرسائل المتراكمة السابقة
+try:
+    print("البوت يقوم بتنظيف الاتصالات السابقة وتصفير الذاكرة التراكمية...")
+    bot.delete_webhook(drop_pending_updates=True)
+except Exception as e:
+    print(f"تنبيه الويب هوك: {e}")
+
+print("البوت يعمل الآن بكفاءة وبدون قيود...")
+bot.infinity_polling(skip_pending_updates=True)
